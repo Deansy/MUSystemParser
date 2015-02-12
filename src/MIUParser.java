@@ -5,6 +5,7 @@ import java.util.List;
 public class MIUParser {
 
 
+    // Returns a list of all the next possible states
     public List<String> nextStates(String originalString) {
         // Always deal with uppercase string
         originalString = originalString.toUpperCase();
@@ -65,7 +66,7 @@ public class MIUParser {
                 }
             }
             catch (Exception e) {
-                // We ignore the exception
+                // We ignore the exception currently
             }
         }
 
@@ -78,7 +79,7 @@ public class MIUParser {
     private List<String> applyRuleFour(String string) {
         String temp = string;
         if (temp.contains("UU")) {
-            // Remove instances of UU
+            // Removes all instances of UU
             temp = temp.replace("UU", "");
         }
 
