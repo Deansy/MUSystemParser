@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MIUParser {
 
@@ -27,70 +25,72 @@ public class MIUParser {
 
     // I -> IU
     private List<String> applyRuleOne(String string) {
-        String temp = string;
         if (string.endsWith("I")) {
             // Append U to the end of the string
-            temp = temp.substring(0, temp.length() - 1);
-            temp = temp + "IU";
+            string = string.substring(0, string.length() - 1);
+            string = string + "IU";
         }
 
         List<String> list = new ArrayList<String>();
-        list.add(temp);
+        list.add(string);
         return list;
     }
 
     // Mx -> Mxx
     private List<String> applyRuleTwo(String string) {
-        String temp = string;
-        temp = temp + temp.substring(1);
+        string = string + string.substring(1);
 
         List<String> list = new ArrayList<String>();
-        list.add(temp);
+        list.add(string);
         return list;
     }
 
     // xIIIy -> xUy
     private List<String> applyRuleThree(String string) {
         List<String> list = new ArrayList<String>();
-        int count = string.indexOf("III");
-        // Works but not really sure why
-        if (count > 0) {
-            try {
-                for (int i = 1; i < count + 1; i++) {
-                    String subStr = string.substring(0, i);
-                    subStr = subStr.concat("U");
-                    // TODO: fix this
-                    // Throws an exception sometimes, Currently ignoring it as it is functional
-                    subStr = subStr.concat(string.substring(count + 3));
 
-                    list.add(subStr);
-                    count++;
-                }
-            }
-            catch (Exception e) {
-                // We ignore the exception currently
+        // Loop through all occurrences of the sub string
+        for (int i = 1; i < subStringCount(string, "III") + 1; i++ ) {
+            // index is the location of the first character of the substring within the string
+            // i represents the ith occurrence of the sub string
+            int index = string.indexOf("III", i);
+
+            if (index > 0) {
+                // Take all of the string before the occurrence
+                String newString = string.substring(0, index);
+                // Add a U
+                newString = newString.concat("U");
+                // and append all of the string after the occurence
+                // index + 3 is after the occurrence due to the sub string being 3 characters long
+                newString = newString.concat(string.substring(index + 3));
+
+                list.add(newString);
             }
         }
+
 
         return list;
     }
 
     // xUUy -> xy
-
     private List<String> applyRuleFour(String string) {
-        String temp = string;
         List<String> list = new ArrayList<String>();
 
-
+        // Loop through all occurrences of the sub string
         for (int i = 1; i < subStringCount(string, "UU") + 1; i++) {
+            // index is the location of the first character of the substring within the string
+            // i represents the ith occurrence of the sub string
             int index = string.indexOf("UU", i);
 
             if (index > 0) {
-                String subStr = string.substring(0, index);
-                subStr = subStr.concat(string.substring(index +2));
+                // Take all of the string before the occurrence
+                String newString = string.substring(0, index);
+                // and append all of the string after the occurrence
+                // index + 2 is after the occurrence due to the sub string being 2 characters long
+                newString = newString.concat(string.substring(index + 2));
 
 
-                list.add(subStr);
+                list.add(newString);
             }
         }
 
@@ -101,13 +101,17 @@ public class MIUParser {
     }
 
     // Counts the number of occurrences of a sub string within a string
-    private int subStringCount(String str, String token) {
-        Pattern p = Pattern.compile(token);
-        Matcher m = p.matcher(str);
+    private int subStringCount(String string, String substring)
+    {
         int count = 0;
-        while (m.find()){
-            count +=1;
+        int idx = 0;
+
+        while ((idx = string.indexOf(substring, idx)) != -1)
+        {
+            idx++;
+            count++;
         }
+
         return count;
     }
 
