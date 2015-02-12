@@ -24,6 +24,9 @@ public class Main {
         states = miu.nextStates("MUUUI");
         printStates(states, "MUUUI");
 
+        states = miu.nextStates("MUUIUU");
+        printStates(states, "MUUIUU");
+
 
     }
 
