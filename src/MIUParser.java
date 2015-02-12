@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MIUParser {
 
@@ -74,18 +76,39 @@ public class MIUParser {
     }
 
     // xUUy -> xy
-    // TODO: Should only remove one at a time
-    // Currently removes all of the instances of UU in one go
+
     private List<String> applyRuleFour(String string) {
         String temp = string;
-        if (temp.contains("UU")) {
-            // Removes all instances of UU
-            temp = temp.replace("UU", "");
+        List<String> list = new ArrayList<String>();
+
+
+        for (int i = 1; i < subStringCount(string, "UU") + 1; i++) {
+            int index = string.indexOf("UU", i);
+
+            if (index > 0) {
+                String subStr = string.substring(0, index);
+                subStr = subStr.concat(string.substring(index +2));
+
+
+                list.add(subStr);
+            }
         }
 
-        List<String> list = new ArrayList<String>();
-        list.add(temp);
+
+
         return list;
+
+    }
+
+    // Counts the number of occurrences of a sub string within a string
+    private int subStringCount(String str, String token) {
+        Pattern p = Pattern.compile(token);
+        Matcher m = p.matcher(str);
+        int count = 0;
+        while (m.find()){
+            count +=1;
+        }
+        return count;
     }
 
 
