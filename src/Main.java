@@ -40,11 +40,14 @@ public class Main {
 
 
         for (List<String> list : x) {
-            printStates(list, " ");
+           // printStates(list, " ");
         }
 
 
 
+        List<String> bfs = miu.breadthFirstSearch("MIIUIIUIIUIIU");
+
+        printStates(bfs, "MI");
 
 
     }

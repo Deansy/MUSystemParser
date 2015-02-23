@@ -1,34 +1,6 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class MIUParser {
-
-
-    public List<List<String>> extendPath(List<String> inputStrings) {
-
-        List<String> nextStates = nextStates(inputStrings.get(inputStrings.size() - 1));
-
-
-        List<List<String>> toReturn = new ArrayList<List<String>>();
-
-        for (String s: nextStates) {
-            List<String> tempList = new ArrayList<String>();
-
-            for (String x : inputStrings) {
-                tempList.add(x);
-            }
-
-            tempList.add(s);
-
-            toReturn.add(tempList);
-        }
-
-
-        return toReturn;
-    }
-
-
 
 
     // Returns a list of all the next possible states
@@ -47,6 +19,80 @@ public class MIUParser {
         states.removeAll(Collections.singleton(originalString));
 
         return states;
+    }
+
+    public List<List<String>> extendPath(List<String> inputStrings) {
+        // Get the next states for the last element of the input
+        List<String> nextStates = nextStates(inputStrings.get(inputStrings.size() - 1));
+
+
+        // Create an arraylist to hold the paths that will be returned
+        List<List<String>> paths = new ArrayList<List<String>>();
+
+        for (String s: nextStates) {
+            List<String> tempList = new ArrayList<String>();
+
+            // Add the existing elements of the paths
+            for (String x : inputStrings) {
+                tempList.add(x);
+            }
+
+            // Add the new element of the path
+            tempList.add(s);
+
+            // Add this path to the paths array
+            paths.add(tempList);
+        }
+
+
+        return paths;
+    }
+
+    public List<String> breadthFirstSearch(String goalString) {
+        Queue<List<String>> agenda = new LinkedList<List<String>>();
+
+        // Create the initial path
+        List<String> initialPath = new ArrayList<String>();
+        initialPath.add("MI");
+
+        // Add the initial path to the agenda
+        agenda.add(initialPath);
+
+
+
+        int extendPathCount = 0;
+        int extendPathLimit = 30;
+
+
+        if (extendPathCount > extendPathLimit) {
+
+            // Take the first path from the agenda
+            List<String> currentPath = agenda.poll();
+
+            // Does its last element == goal string
+            if (currentPath.get(currentPath.size() - 1).equals(goalString)) {
+                //  if so return stuff
+                System.out.println("Length of path: " + currentPath.size());
+                System.out.println("Extend path called: " + extendPathCount);
+                System.out.println("Agenda size: " + agenda.size());
+
+                return currentPath;
+            } else {
+                // Apply extend path
+                List<List<String>> x = extendPath(currentPath);
+                extendPathCount++;
+                //  add new paths to end of agenda
+                for (List<String> path : x) {
+                    agenda.add(path);
+                }
+
+            }
+        } else {
+            return new ArrayList<String>();
+        }
+
+        // Should never reach here
+        return null;
     }
 
     // I -> IU
