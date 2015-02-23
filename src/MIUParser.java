@@ -5,6 +5,32 @@ import java.util.List;
 public class MIUParser {
 
 
+    public List<List<String>> extendPath(List<String> inputStrings) {
+
+        List<String> nextStates = nextStates(inputStrings.get(inputStrings.size() - 1));
+
+
+        List<List<String>> toReturn = new ArrayList<List<String>>();
+
+        for (String s: nextStates) {
+            List<String> tempList = new ArrayList<String>();
+
+            for (String x : inputStrings) {
+                tempList.add(x);
+            }
+
+            tempList.add(s);
+
+            toReturn.add(tempList);
+        }
+
+
+        return toReturn;
+    }
+
+
+
+
     // Returns a list of all the next possible states
     public List<String> nextStates(String originalString) {
         // Always deal with uppercase string

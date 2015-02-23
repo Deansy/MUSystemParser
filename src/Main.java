@@ -5,27 +5,46 @@ public class Main {
     public static void main(String[] args) {
         MIUParser miu = new MIUParser();
 
-        List<String> states = new ArrayList<String>();
-        states = miu.nextStates("MI");
-        printStates(states, "MI");
 
-        states = miu.nextStates("MIU");
-        printStates(states, "MIU");
+        // Next states
+//        List<String> states = new ArrayList<String>();
+//        states = miu.nextStates("MI");
+//        printStates(states, "MI");
+//
+//        states = miu.nextStates("MIU");
+//        printStates(states, "MIU");
+//
+//        states = miu.nextStates("MUI");
+//        printStates(states, "MUI");
+//
+//        states = miu.nextStates("MIIII");
+//        printStates(states, "MIIII");
+//
+//        states = miu.nextStates("MUUII");
+//        printStates(states, "MUUII");
+//
+//        states = miu.nextStates("MUUUI");
+//        printStates(states, "MUUUI");
+//
+//        states = miu.nextStates("MUUIUU");
+//        printStates(states, "MUUIUU");
 
-        states = miu.nextStates("MUI");
-        printStates(states, "MUI");
 
-        states = miu.nextStates("MIIII");
-        printStates(states, "MIIII");
 
-        states = miu.nextStates("MUUII");
-        printStates(states, "MUUII");
+        // Extend Path
+        List<String> inputPath = new ArrayList<String>();
+        inputPath.add("MI");
+        inputPath.add("MII");
+        List<List<String>> x = miu.extendPath(inputPath);
 
-        states = miu.nextStates("MUUUI");
-        printStates(states, "MUUUI");
 
-        states = miu.nextStates("MUUIUU");
-        printStates(states, "MUUIUU");
+
+        for (List<String> list : x) {
+            printStates(list, " ");
+        }
+
+
+
 
 
     }
