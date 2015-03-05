@@ -95,6 +95,62 @@ public class MIUParser {
         return null;
     }
 
+
+    public List<String> iterativeDeepening(String goalString) {
+        List<String> x = depthLimitedDFS(goalString, 2);
+
+
+
+
+        return x;
+    }
+
+    public List<String> depthLimitedDFS(String goalString, int limit) {
+        Stack<List<String>> agenda = new Stack<List<String>>();
+
+        // Create the initial path
+        List<String> initialPath = new ArrayList<String>();
+        initialPath.add("MI");
+
+        // Add the initial path to the agenda
+        agenda.add(initialPath);
+
+
+        int extendPathCount = 0;
+
+
+        // Take the first path from the agenda
+        List<String> currentPath = agenda.pop();
+
+        while (currentPath.size() <= limit) {
+
+
+            // Does its last element == goal string
+            if (currentPath.contains(goalString)) {
+                //  if so return stuff
+                System.out.println("Length of path: " + currentPath.size());
+                System.out.println("Extend path called: " + extendPathCount);
+                System.out.println("Agenda size: " + agenda.size());
+
+                return currentPath;
+            } else {
+                // Apply extend path
+                List<List<String>> x = extendPath(currentPath);
+
+                //  add new paths to end of agenda
+                for (List<String> path : x) {
+                    agenda.push(path);
+                }
+
+                extendPathCount++;
+                currentPath = agenda.pop();
+
+            }
+        }
+            return new ArrayList<String>();
+
+    }
+
     // I -> IU
     private List<String> applyRuleOne(String string) {
         if (string.endsWith("I")) {

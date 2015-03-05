@@ -45,7 +45,7 @@ public class Main {
 
 
 
-        List<String> bfs = miu.breadthFirstSearch("MIIUIIUIIUIIU");
+        List<String> bfs = miu.depthLimitedDFS("MIUIUIUIUIUIUIUIU", 7);
 
         printStates(bfs, "MI");
 
