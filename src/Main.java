@@ -43,9 +43,9 @@ public class Main {
            // printStates(list, " ");
         }
 
+        List<String> bfs = miu.iterativeDeepening("MUUIUU");
 
 
-        List<String> bfs = miu.depthLimitedDFS("MIUIUIUIUIUIUIUIU", 7);
 
         printStates(bfs, "MI");
 

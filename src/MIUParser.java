@@ -97,7 +97,29 @@ public class MIUParser {
 
 
     public List<String> iterativeDeepening(String goalString) {
-        List<String> x = depthLimitedDFS(goalString, 2);
+        // Initial depth to search is 2
+        int depth = 2;
+        boolean found = false;
+
+
+        List<String> x = depthLimitedDFS(goalString, depth);
+
+        while (!found) {
+
+            // We didn't find it
+            if (x.equals(new ArrayList<String>()))   {
+                depth++;
+                x = depthLimitedDFS(goalString, depth);
+
+            }
+            else {
+                found = true;
+            }
+        }
+
+        if (found) {
+            System.out.println("Depth found at:" + depth);
+        }
 
 
 
@@ -116,14 +138,11 @@ public class MIUParser {
         agenda.add(initialPath);
 
 
-        int extendPathCount = 0;
+        int extendPathCount = 1;
 
 
-        // Take the first path from the agenda
-        List<String> currentPath = agenda.pop();
-
-        while (currentPath.size() <= limit) {
-
+        while (!agenda.isEmpty()) {
+            List<String> currentPath = agenda.pop();
 
             // Does its last element == goal string
             if (currentPath.contains(goalString)) {
@@ -134,19 +153,25 @@ public class MIUParser {
 
                 return currentPath;
             } else {
-                // Apply extend path
-                List<List<String>> x = extendPath(currentPath);
+                if (extendPathCount < limit) {
+                    // Apply extend path
+                    List<List<String>> x = extendPath(currentPath);
 
-                //  add new paths to end of agenda
-                for (List<String> path : x) {
-                    agenda.push(path);
+                    //  add new paths to end of agenda
+                    for (List<String> path : x) {
+                        agenda.push(path);
+                    }
+
+                    extendPathCount++;
                 }
-
-                extendPathCount++;
-                currentPath = agenda.pop();
+                else {
+                    //System.out.println("Can't expand again");
+                    //return new ArrayList<String>();
+                }
 
             }
         }
+            System.out.println("Goal String was not found at this depth");
             return new ArrayList<String>();
 
     }
