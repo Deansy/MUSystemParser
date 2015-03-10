@@ -43,11 +43,14 @@ public class Main {
            // printStates(list, " ");
         }
 
-        List<String> bfs = miu.iterativeDeepening("MUUIUU");
 
 
-
+        List<String> bfs = miu.iterativeDeepening("MIUUIIUUIIUIIIIIUIIII", true);
         printStates(bfs, "MI");
+//
+        List<String> bfs2 = miu.iterativeDeepening("MIUUIIUUIIUIIIIIUIIII", false);
+        printStates(bfs2, "MI");
+
 
 
     }
