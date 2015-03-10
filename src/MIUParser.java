@@ -26,7 +26,7 @@ public class MIUParser {
         List<String> nextStates = nextStates(inputStrings.get(inputStrings.size() - 1));
 
 
-        // Create an arraylist to hold the paths that will be returned
+        // Create an array list to hold the paths that will be returned
         List<List<String>> paths = new ArrayList<List<String>>();
 
         for (String s: nextStates) {
@@ -60,82 +60,48 @@ public class MIUParser {
         agenda.add(initialPath);
 
 
-
-        // We only want to extend the path 30 times
+        // For keeping track of how many times extend path is being called
         int extendPathCount = 0;
-        int extendPathLimit = 30;
+
+        // This is to prevent infinite searching if the goal cannot be found
+        int maxDepth = 30;
 
 
-        if (extendPathCount > extendPathLimit) {
+        // Take the first path from the agenda
+        List<String> currentPath = agenda.poll();
 
-            // Take the first path from the agenda
-            List<String> currentPath = agenda.poll();
+        // Does its last element == goal string
+        // if (currentPath.get(currentPath.size() - 1).equals(goalString)) {
+        if (currentPath.contains(goalString)) {
+            //  if so return stuff
+            System.out.println("Length of path: " + currentPath.size());
+            System.out.println("Extend path called: " + extendPathCount);
+            System.out.println("Agenda size: " + agenda.size());
 
-            // Does its last element == goal string
-           // if (currentPath.get(currentPath.size() - 1).equals(goalString)) {
-            if (currentPath.contains(goalString)) {
-                //  if so return stuff
-                System.out.println("Length of path: " + currentPath.size());
-                System.out.println("Extend path called: " + extendPathCount);
-                System.out.println("Agenda size: " + agenda.size());
+            return currentPath;
+        } else {
+            // Apply extend path
+            List<List<String>> x = extendPath(currentPath);
+            extendPathCount++;
 
-                return currentPath;
-            } else {
-                // Apply extend path
-                List<List<String>> x = extendPath(currentPath);
-                extendPathCount++;
+            if (x.size() >= maxDepth) {
+                return new ArrayList<String>();
+            }
+            else {
 
                 //  add new paths to end of agenda
                 for (List<String> path : x) {
                     agenda.add(path);
                 }
-
             }
-        } else {
-            // The goal was not found
-            // An empty string is returned
-            return new ArrayList<String>();
+
+
         }
 
         // Should never reach here
         return null;
     }
 
-
-    public List<String> iterativeDeepening(String goalString) {
-        // Initial depth to search is 2
-        int depth = 2;
-        boolean found = false;
-
-
-        // Do a search with the inital depth
-        List<String> x = depthLimitedDFS(goalString, depth);
-
-        // Loop till the goal is found
-        while (!found) {
-
-
-            // We didn't find it
-            if (x.equals(new ArrayList<String>()))   {
-                // Increment the depth and search again
-                depth++;
-                x = depthLimitedDFS(goalString, depth);
-
-            }
-            else {
-                found = true;
-            }
-        }
-
-        if (found) {
-            // If it was found then print the depth it was found at
-            System.out.println("Depth found at:" + depth);
-        }
-
-
-        //  Return the path to the goal
-        return x;
-    }
 
     public List<String> depthLimitedDFS(String goalString, int limit) {
         // Create the agenda
@@ -174,9 +140,46 @@ public class MIUParser {
                 }
             }
         }
-            System.out.println("Goal String was not found at this depth");
-            return new ArrayList<String>();
 
+
+        System.out.println("Goal String was not found at this depth");
+        return new ArrayList<String>();
+
+    }
+
+    public List<String> iterativeDeepening(String goalString) {
+        // Initial depth to search is 2
+        int depth = 2;
+        boolean found = false;
+
+
+        // Do a search with the inital depth
+        List<String> x = depthLimitedDFS(goalString, depth);
+
+        // Loop till the goal is found
+        while (!found) {
+
+
+            // We didn't find it
+            if (x.equals(new ArrayList<String>()))   {
+                // Increment the depth and search again
+                depth++;
+                x = depthLimitedDFS(goalString, depth);
+
+            }
+            else {
+                found = true;
+            }
+        }
+
+        if (found) {
+            // If it was found then print the depth it was found at
+            System.out.println("Depth found at:" + depth);
+        }
+
+
+        //  Return the path to the goal
+        return x;
     }
 
     // I -> IU
