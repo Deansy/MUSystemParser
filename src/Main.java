@@ -32,6 +32,7 @@ public class Main {
             printStates(states, "MUUIUU");
         }
 
+
         if (practical == 2) {
             // Extend Path
             List<String> inputPath = new ArrayList<String>();
@@ -45,7 +46,10 @@ public class Main {
 
             //List<String> bfs = miu.breadthFirstSearch("MIUIUIUIUIUIUIUIU");
 
+
+
             //printStates(bfs, "MIUIUIUIUIUIUIUIU");
+
 
 
             //List<String> id = miu.iterativeDeepening("MIUIUIUIUIUIUIUIU");
