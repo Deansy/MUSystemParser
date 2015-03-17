@@ -5,51 +5,54 @@ public class Main {
     public static void main(String[] args) {
         MIUParser miu = new MIUParser();
 
+        int practical = 2;
 
-        // Next states
-//        List<String> states = new ArrayList<String>();
-//        states = miu.nextStates("MI");
-//        printStates(states, "MI");
-//
-//        states = miu.nextStates("MIU");
-//        printStates(states, "MIU");
-//
-//        states = miu.nextStates("MUI");
-//        printStates(states, "MUI");
-//
-//        states = miu.nextStates("MIIII");
-//        printStates(states, "MIIII");
-//
-//        states = miu.nextStates("MUUII");
-//        printStates(states, "MUUII");
-//
-//        states = miu.nextStates("MUUUI");
-//        printStates(states, "MUUUI");
-//
-//        states = miu.nextStates("MUUIUU");
-//        printStates(states, "MUUIUU");
+        if (practical == 1) {
+            // Next states
+            List<String> states = new ArrayList<String>();
+            states = miu.nextStates("MI");
+            printStates(states, "MI");
 
+            states = miu.nextStates("MIU");
+            printStates(states, "MIU");
 
+            states = miu.nextStates("MUI");
+            printStates(states, "MUI");
 
-        // Extend Path
-        List<String> inputPath = new ArrayList<String>();
-        inputPath.add("MI");
-        inputPath.add("MII");
-        List<List<String>> x = miu.extendPath(inputPath);
+            states = miu.nextStates("MIIII");
+            printStates(states, "MIIII");
 
+            states = miu.nextStates("MUUII");
+            printStates(states, "MUUII");
 
+            states = miu.nextStates("MUUUI");
+            printStates(states, "MUUUI");
 
-        for (List<String> list : x) {
-           // printStates(list, " ");
+            states = miu.nextStates("MUUIUU");
+            printStates(states, "MUUIUU");
         }
 
-        List<String> bfs = miu.iterativeDeepening("MUUIUU");
+        if (practical == 2) {
+            // Extend Path
+            List<String> inputPath = new ArrayList<String>();
+            inputPath.add("MI");
+            inputPath.add("MII");
+            List<List<String>> x = miu.extendPath(inputPath);
+
+            for (List<String> list : x) {
+                printStates(list, " ");
+            }
+
+            //List<String> bfs = miu.breadthFirstSearch("MIUIUIUIUIUIUIUIU");
+
+            //printStates(bfs, "MIUIUIUIUIUIUIUIU");
 
 
+            //List<String> id = miu.iterativeDeepening("MIUIUIUIUIUIUIUIU");
 
-        printStates(bfs, "MI");
+            //printStates(id, "MIUIUIUIUIUIUIUIU");
 
-
+        }
     }
 
     static void printStates(List<String> states, String originalString) {

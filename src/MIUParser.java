@@ -71,8 +71,6 @@ public class MIUParser {
             // Take the first path from the agenda
             List<String> currentPath = agenda.poll();
 
-            // Does its last element == goal string
-           // if (currentPath.get(currentPath.size() - 1).equals(goalString)) {
             if (currentPath.contains(goalString)) {
                 //  if so return stuff
                 System.out.println("Length of path: " + currentPath.size());
@@ -100,7 +98,6 @@ public class MIUParser {
         // Should never reach here
         return null;
     }
-
 
     public List<String> iterativeDeepening(String goalString) {
         // Initial depth to search is 2
