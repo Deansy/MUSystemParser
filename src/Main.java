@@ -5,31 +5,12 @@ public class Main {
     public static void main(String[] args) {
         MIUParser miu = new MIUParser();
 
-        int practical = 2;
+        int practical = 1;
 
         if (practical == 1) {
             // Next states
-            List<String> states = new ArrayList<String>();
-            states = miu.nextStates("MI");
-            printStates(states, "MI");
-
-            states = miu.nextStates("MIU");
-            printStates(states, "MIU");
-
-            states = miu.nextStates("MUI");
-            printStates(states, "MUI");
-
-            states = miu.nextStates("MIIII");
-            printStates(states, "MIIII");
-
-            states = miu.nextStates("MUUII");
-            printStates(states, "MUUII");
-
-            states = miu.nextStates("MUUUI");
-            printStates(states, "MUUUI");
-
-            states = miu.nextStates("MUUIUU");
-            printStates(states, "MUUIUU");
+            System.out.println(miu.nextStates("MUUUUUU"));
+            System.out.println(miu.nextStates("MIIIIII"));
         }
 
 
@@ -41,37 +22,19 @@ public class Main {
             List<List<String>> x = miu.extendPath(inputPath);
 
             for (List<String> list : x) {
-                printStates(list, " ");
+                System.out.println(list);
             }
 
-            //List<String> bfs = miu.breadthFirstSearch("MIUIUIUIUIUIUIUIU");
+            List<String> bfs = miu.breadthFirstSearch("MIU", false);
+
+            System.out.println(bfs);
 
 
 
-            //printStates(bfs, "MIUIUIUIUIUIUIUIU");
+            List<String> id = miu.iterativeDeepening("MIUIUIUIUIUIUIUIU", false);
 
-
-
-            //List<String> id = miu.iterativeDeepening("MIUIUIUIUIUIUIUIU");
-
-            //printStates(id, "MIUIUIUIUIUIUIUIU");
+            System.out.println(id);
 
         }
-    }
-
-    static void printStates(List<String> states, String originalString) {
-        System.out.println(originalString);
-        System.out.print("[");
-        for (int i = 0; i < states.size(); i++) {
-            String s = states.get(i);
-            if (i == states.size() - 1) {
-                System.out.print(s);
-            }
-            else {
-                System.out.print(s + ", ");
-            }
-        }
-        System.out.print("]");
-        System.out.println("");
     }
 }
