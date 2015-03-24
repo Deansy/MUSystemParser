@@ -84,8 +84,8 @@ public class MIUParser {
             // Take the first path from the agenda
             List<String> currentPath = agenda.poll();
 
-            //System.out.println("Current depth:" + currentPath.size());
-            //System.out.println("Agenda size: " + agenda.size());
+
+            //System.out.println(currentPath);
             // Does its last element == goal string
             if (currentPath.contains(goalString)) {
                 //  if so return stuff
@@ -95,6 +95,7 @@ public class MIUParser {
 
                 return currentPath;
             } else {
+                boolean shouldExpand = true;
                 // Path checking
                 if (pathCheck) {
 
@@ -106,71 +107,32 @@ public class MIUParser {
 
                     // If something equal to lastNode is still in the path then it has already been expanded
                     if (tempList.contains(lastNode)) {
-                        System.out.println("Don't expand");
+                        shouldExpand = false;
+                        System.out.println("Node already on path");
 
-                    }
-                    else {
-                        // Expand the path
-                        List<List<String>> x = extendPath(currentPath);
-                        extendPathCount++;
-
-
-                        // Find a better way to do thiss
-                        if (x.get(0).size() >= maxDepth) {
-                            // Stop the search when the maximum depth is reached
-                            System.out.println("Reached max depth");
-                            return new ArrayList<String>();
-                        } else {
-
-                            //  add new paths to end of agenda
-                            for (List<String> path : x) {
-                                agenda.add(path);
-                            }
-                        }
                     }
                 }
-                // Node Checking
-                else if (nodeCheck) {
-                    // No path checking is being done
+                if (nodeCheck) {
+                    String lastNode = currentPath.get(currentPath.size() - 1);
+
+                    if (visitedNodes.contains(lastNode)) {
+                        shouldExpand = false;
+                        System.out.println("Node already expanded");
+                    }
+                }
+                if (shouldExpand) {
+                    // Expand the path
                     List<List<String>> x = extendPath(currentPath);
                     extendPathCount++;
 
-
-
-                    // Find a better way to do this
-                    if (x.get(0).size() >= maxDepth) {
-                        // Stop the search when the maximum depth is reached
-                        System.out.println("Reached max depth");
-                        return new ArrayList<String>();
-                    } else {
-
-                        //  add new paths to end of agenda
-                        for (List<String> path : x) {
-                            String lastNodeOnPath = path.get(path.size() - 1);
-                            if (visitedNodes.contains(lastNodeOnPath)) {
-                                // If the last node has already been visited don't add it to the agenda
-                                System.out.println("Already expanded this node");
-                            }
-                            else {
-                                agenda.add(path);
-                            }
-                        }
-
-
-                        for (List<String> list : x) {
-                            for (String s : list) {
-                                visitedNodes.add(s);
-                            }
-                        }
+                    // Second last node has been expanded
+                    // Add it to visited nodes
+                    for (List<String> l: x) {
+                        String lastNode = l.get(l.size() - 2);
+                        visitedNodes.add(lastNode);
                     }
-                }
-                else {
-                    // No path or node checking is being done
-                    List<List<String>> x = extendPath(currentPath);
-                    extendPathCount++;
 
 
-                    // Find a better way to do this
                     if (x.get(0).size() >= maxDepth) {
                         // Stop the search when the maximum depth is reached
                         System.out.println("Reached max depth");
