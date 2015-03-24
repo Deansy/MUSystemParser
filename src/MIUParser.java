@@ -151,9 +151,12 @@ public class MIUParser {
 
 
 
-    public List<String> depthLimitedDFS(String goalString, int limit, boolean pathCheck) {
+    public List<String> depthLimitedDFS(String goalString, int limit, boolean pathCheck, boolean nodeCheck) {
         // Create the agenda
         Stack<List<String>> agenda = new Stack<List<String>>();
+
+        Set<String> visitedNodes = new HashSet<String>();
+
 
         // Create the initial path
         List<String> initialPath = new ArrayList<String>();
@@ -165,9 +168,12 @@ public class MIUParser {
         int extendPathCount = 0;
 
 
+
+
         while (!agenda.isEmpty()) {
             List<String> currentPath = agenda.pop();
 
+            boolean shouldExpand = true;
             // Does the path contain the goal?
             if (currentPath.contains(goalString)) {
                 //  if so return stuff
@@ -192,25 +198,31 @@ public class MIUParser {
                         // If something equal to lastNode is still in the path then it has already been expanded
                         if (tempList.contains(lastNode)) {
                             System.out.println("Don't expand");
+                            shouldExpand = false;
                         }
-                        else {
-                            // Apply extend path
-                            List<List<String>> x = extendPath(currentPath);
-                            extendPathCount++;
+                    }
+                    if (nodeCheck) {
+                        String lastNode = currentPath.get(currentPath.size() - 1);
 
-                            //  add new paths to end of agenda
-                            for (List<String> path : x) {
-
-                                agenda.push(path);
+                        if (visitedNodes.contains(lastNode)) {
+                            shouldExpand = false;
+                            System.out.println("Node already expanded");
+                            if (lastNode.equals("MIU")) {
+                                System.out.println(lastNode);
                             }
                         }
-
-
                     }
-                    else {
+                    if (shouldExpand) {
                         // Apply extend path
                         List<List<String>> x = extendPath(currentPath);
                         extendPathCount++;
+
+                        // Second last node has been expanded
+                        // Add it to visited nodes
+                        for (List<String> l: x) {
+                            String lastNode = l.get(l.size() - 2);
+                            visitedNodes.add(lastNode);
+                        }
 
                         //  add new paths to end of agenda
                         for (List<String> path : x) {
@@ -218,7 +230,6 @@ public class MIUParser {
                             agenda.push(path);
                         }
                     }
-
                 }
             }
         }
@@ -229,14 +240,14 @@ public class MIUParser {
 
     }
 
-    public List<String> iterativeDeepening(String goalString, boolean pathCheck) {
+    public List<String> iterativeDeepening(String goalString, boolean pathCheck, boolean nodeCheck) {
         // Initial depth to search is 2
         int depth = 2;
         boolean found = false;
 
 
         // Do a search with the initial depth
-        List<String> x = depthLimitedDFS(goalString, depth, pathCheck);
+        List<String> x = depthLimitedDFS(goalString, depth, pathCheck, nodeCheck);
 
         // Loop till the goal is found
         while (!found) {
@@ -246,7 +257,7 @@ public class MIUParser {
             if (x.equals(new ArrayList<String>()))   {
                 // Increment the depth and search again
                 depth++;
-                x = depthLimitedDFS(goalString, depth, pathCheck);
+                x = depthLimitedDFS(goalString, depth, pathCheck, nodeCheck);
 
             }
             else {

@@ -7,8 +7,8 @@ public class Main {
 
         //MIIIUII
         //MIIIUIIIIIUIIIIIUIIIIIUIIIIIUIIIIIUII
-        List<String> nodeCheck = miu.breadthFirstSearch("MIIIUII", false, true);
-        List<String> noNodeCheck = miu.breadthFirstSearch("MIIIUII", false, false);
+        List<String> nodeCheck = miu.iterativeDeepening("MIIIUIIIIIUIIIIIUIIIIIUIIIIIUIIIIIUII", false, true);
+        List<String> noNodeCheck = miu.iterativeDeepening("MIIIUIIIIIUIIIIIUIIIIIUIIIIIUIIIIIUII", false, false);
 
         System.out.println(nodeCheck);
         System.out.println(noNodeCheck);
